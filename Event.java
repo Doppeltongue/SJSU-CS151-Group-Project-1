@@ -1,12 +1,8 @@
 package scheduler;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-
-import javax.swing.JButton;
 
 /**
  * @authors Phillip, Ricardo, Tri
@@ -18,7 +14,7 @@ import javax.swing.JButton;
 public class Event implements Comparable{
 	public static final String[] TYPES = {"Class", "Work", "Other"}; 
 	private int type;
-	private GregorianCalendar startTime = new GregorianCalendar(); //starting time of the event
+	private Calendar startTime = Calendar.getInstance(); //starting time of the event
 	private int duration; //duration of event in minutes
 	private String description; //description of the event
 	
@@ -103,4 +99,19 @@ public class Event implements Comparable{
 	public Calendar getCalendar() {
 		return startTime;
 	}
+	
+	public int getEndDay() {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(startTime.getTime());
+		cal.add(Calendar.MINUTE, duration);
+		return cal.get(Calendar.DATE);
+	}
+	
+	public Date getEndTime() {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(startTime.getTime());
+		cal.add(Calendar.MINUTE, duration);
+		return cal.getTime();
+	}
+	
 }
