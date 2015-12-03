@@ -1,5 +1,7 @@
 package scheduler;
 
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Label;
 import java.awt.Panel;
 import java.awt.event.ActionEvent;
@@ -12,7 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class DatePanel extends JPanel {
+public class HeaderPanel extends JPanel {
 
 	private String startDateLabel = "";
 	private String endDateLabel = "";
@@ -22,10 +24,14 @@ public class DatePanel extends JPanel {
 	private JLabel dates;
 	private Calendar startDate;
 	private Calendar endDate;
+	private JPanel daysOfWeek;
+	
 	private int currentDayOfWeek;
 	
 	
-	public DatePanel(Calendar currentDate) {
+	
+	public HeaderPanel(Calendar currentDate) {
+		
 		currentDayOfWeek = currentDate.get(Calendar.DAY_OF_WEEK);
 		startDate = getStartDate();
 		endDate = getEndDate();
@@ -33,6 +39,7 @@ public class DatePanel extends JPanel {
 		endDateLabel = getEndDateLabel(endDate);
 		weekLabel = getWeekLabel();
 		dates = new JLabel(weekLabel);
+		dates.setFont(new Font("Serif", Font.PLAIN, 30));
 		prevButton = new JButton("<");
 		prevButton.addActionListener(changeWeek(-1));
 		dates = new JLabel(weekLabel);
@@ -105,7 +112,10 @@ public class DatePanel extends JPanel {
 	}
 	
 		
-	
+	/*
+	 * ActionListener for prevButton and nextButton.
+	 * 
+	 */
 	
 	public ActionListener changeWeek(final int num) {
 		return new ActionListener() {
@@ -127,15 +137,35 @@ public class DatePanel extends JPanel {
 		
 	}
 	
+	/*
+	 * Repaints all components
+	 */
 	public void addPanels(){
 		this.add(prevButton);
 		this.add(dates);
 		this.add(nextButton);
+
 	}
 	
+	/*
+	 * Formula for weekLabel 
+	 */
 	public String getWeekLabel(){
 		return (startDateLabel + " " + "-" + " " + endDateLabel);
 	}
 	
+	
+	/*
+	 * sets up days of week and adds them to a panel
+	 */
+	
+	public void daysOfWeekSetUp(JPanel panel){
+		String[] daysOfWeek = new String[] {"Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"};
+		for(String e: daysOfWeek){
+			JLabel day = new JLabel(e);
+			day.setFont(new Font("Serif", Font.PLAIN, 25));
+			panel.add(day);
+		}
+	}
 	
 }
