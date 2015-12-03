@@ -44,12 +44,13 @@ public class Header extends JPanel{
 		addEvent.setFont(new Font("Serif", Font.PLAIN, 30));
 		header.add(addEvent, BorderLayout.EAST);
 		this.add(header, BorderLayout.NORTH);
+		this.add(datePanel.getDayBar(), BorderLayout.SOUTH);
+		
 		
 		this.setOpaque(true);
 		this.setLocation(0,0);
 		//this.setPreferredSize(new Dimension(1000,200));
-		this.setSize(1000,100);
-		this.setBackground(Color.BLUE);
+		this.setSize(900,110);
 		this.repaint();
 	}
 	
