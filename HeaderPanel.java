@@ -1,5 +1,7 @@
 package scheduler;
 
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Label;
@@ -10,9 +12,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.LayoutStyle;
 
 public class HeaderPanel extends JPanel {
 	private static final String[] DAYS = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
@@ -25,7 +30,6 @@ public class HeaderPanel extends JPanel {
 	private JLabel dates;
 	private Calendar startDate;
 	private Calendar endDate;
-	private JPanel daysOfWeek;
 	
 	private int currentDayOfWeek;
 	
@@ -157,20 +161,44 @@ public class HeaderPanel extends JPanel {
 	 * sets up days of week and adds them to a panel
 	 */
 	
-	public void daysOfWeekSetUp(JPanel panel){
-		Calendar temp = Calendar.getInstance();
-		
+	public JPanel getDayBar(){
+		Dimension dimension = new Dimension(100,30);
+		JPanel panel = new JPanel();
+		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(startDate.getTime());
+		JPanel spacer1 = new JPanel();
+		spacer1.setPreferredSize(dimension);
+		panel.add(spacer1);
+		JPanel filler = new JPanel();
+		filler.setMaximumSize(dimension);
+		filler.setMinimumSize(dimension);
+		filler.setPreferredSize(dimension);
+		String str = new String("Time");
+		JLabel label = new JLabel(str);
+		label.setFont(new Font("Serif", Font.PLAIN, 20));
+		filler.add(label);
+		filler.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		filler.setBackground(new Color(255,131,250));
+		panel.add(filler);
 		for (int i=0;i<7;i++) {
 			JPanel day = new JPanel();
-		}
-		
-		
-		String[] daysOfWeek = new String[] {"Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"};
-		for(String e: daysOfWeek){
-			JLabel day = new JLabel(e);
-			day.setFont(new Font("Serif", Font.PLAIN, 25));
+			day.setMaximumSize(dimension);
+			day.setMinimumSize(dimension);
+			day.setPreferredSize(dimension);
+			day.setBackground(new Color(255,228,225));
+			str = new String(DAYS[i]+" " + (calendar.get(Calendar.MONTH)+1)+"/"+calendar.get(Calendar.DATE));
+			label = new JLabel(str);
+			label.setFont(new Font("Serif", Font.PLAIN, 20));
+			day.add(label);
+			day.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 			panel.add(day);
+			calendar.add(Calendar.DATE, 1);
 		}
+		JPanel spacer2 = new JPanel();
+		spacer2.setPreferredSize(dimension);
+		panel.add(spacer2);
+		return panel;
 	}
 	
 }
