@@ -2,22 +2,16 @@ package scheduler;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Label;
-import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.LayoutStyle;
 
 public class HeaderPanel extends JPanel {
 	private static final String[] DAYS = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
@@ -120,7 +114,6 @@ public class HeaderPanel extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				startDate.add(Calendar.DATE, (7*num));
 				ScheduleController.setDate(startDate.getTime());
 				ScheduleController.refresh();
@@ -186,7 +179,9 @@ public class HeaderPanel extends JPanel {
 			day.setMaximumSize(dimension);
 			day.setMinimumSize(dimension);
 			day.setPreferredSize(dimension);
-			day.setBackground(new Color(255,228,225));
+			ArrayList<Event> events = ScheduleController.getDay(calendar.getTime());
+			if (events.isEmpty()) {day.setBackground(new Color(152,251,152));}
+			else day.setBackground(new Color(255,228,225));
 			str = new String(DAYS[i]+" " + (calendar.get(Calendar.MONTH)+1)+"/"+calendar.get(Calendar.DATE));
 			label = new JLabel(str);
 			label.setFont(new Font("Serif", Font.PLAIN, 20));
