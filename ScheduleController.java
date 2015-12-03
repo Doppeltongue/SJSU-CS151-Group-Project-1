@@ -26,6 +26,7 @@ import javax.swing.WindowConstants;
  * All methods that alter the database will automatically save any changes
  */
 public class ScheduleController {
+	public static final int BUTTON_WIDTH = 100;
 	private static final String SAVE_LOCATION = new String("schedule.txt");
 	private static final int MILLISECONDS_IN_HOUR = 3600000;
 	static ArrayList<Event> database; //ArrayList is used since we don't know what the database size will be
@@ -36,10 +37,10 @@ public class ScheduleController {
 	public ScheduleController() {
 		database = new ArrayList<Event>();
 		date = new Date();
-		foundation = new JFrame();
+		foundation = new JFrame("SUSCAP");
 		foundation.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		foundation.setLayout(null);
-		foundation.setPreferredSize(new Dimension(1000, 1000));
+		foundation.setPreferredSize(new Dimension(916, 650));
 		startUp();
 	}
 	
@@ -126,6 +127,8 @@ public class ScheduleController {
 	}
 	
 	public static void fill() {
+
+		foundation.add(new Header(date));
 		foundation.add(new WeekPane(getWeek(date)));
 	}
 	
@@ -148,5 +151,9 @@ public class ScheduleController {
 		fill();
 		foundation.validate();
 		foundation.repaint();
+	}
+	
+	public static void setDate(Date d) {
+		date = d;
 	}
 }
