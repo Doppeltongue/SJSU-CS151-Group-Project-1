@@ -6,8 +6,10 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -84,21 +86,11 @@ public class EventMaker {
 					typeNum = 2;
 				}
 			
-			
-				GregorianCalendar cal = new GregorianCalendar(year, month - 1, day, hour, min);
+				Calendar cal = Calendar.getInstance();
+				cal.set(year, month-1, day, hour, min, 0);
 				Date time  = cal.getTime();
 				
 				Event newEvent = new Event(time, duration, typeNum, descript.getText());
-				
-				System.out.println(month);
-				System.out.println(year);
-				System.out.println(newEvent.getDate());
-				System.out.println(newEvent.getHour());
-				System.out.println(newEvent.getMonth());
-				System.out.println(newEvent.getType());
-				System.out.println(newEvent.toString());
-				System.out.println(duration);
-				
 				ScheduleController.addEvent(newEvent);
 				frame.dispose();
 			}
