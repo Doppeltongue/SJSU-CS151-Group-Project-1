@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 public class WeekPane extends JScrollPane{
-	private static final int WIDTH = 800;
+	private static final int WIDTH = 820;
 	private static final int HEIGHT = 500;
 	ArrayList<Event> events;
 	JLayeredPane base;
@@ -18,7 +18,7 @@ public class WeekPane extends JScrollPane{
 		base = makeWeek();
 		this.setViewportView(base);
 		this.setSize(WIDTH,HEIGHT);
-		this.setLocation(100,0);
+		this.setLocation(48,110);
 		this.setVisible(true);
 	}
 	
