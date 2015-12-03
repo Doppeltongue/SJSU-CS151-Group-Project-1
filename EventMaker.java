@@ -6,39 +6,18 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.Locale;
-
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JSpinner;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.SpinnerDateModel;
-import javax.swing.SpinnerListModel;
-import javax.swing.SpinnerModel;
-import javax.swing.SpinnerNumberModel;
-import javax.swing.SwingConstants;
 
 public class EventMaker {
 	
 	private JFrame frame;
 	private JPanel mainPanel;
-	private JPanel chooseDatePanel;
-	private JPanel centerChooseDatePanel;
-	
-	private JLabel chooseDate;
-
-	private int month;
-	private int day;
-	private int year;
-	
 	public EventMaker(){
 		frame = new JFrame();
 		frame.setPreferredSize(new Dimension(600, 350));
@@ -84,8 +63,6 @@ public class EventMaker {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				
 				String[] date = eventDate.getText().split("/");
 				String[] timeSplit = startTime.getText().split(":");
 				
@@ -121,14 +98,21 @@ public class EventMaker {
 				System.out.println(newEvent.getType());
 				System.out.println(newEvent.toString());
 				System.out.println(duration);
+				
+				ScheduleController.addEvent(newEvent);
+				frame.dispose();
 			}
 		});
         
 
         frame.add(mainPanel);
+
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	}
+        
+     public void show() {   
         frame.pack();
         frame.setVisible(true);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 	}
 }
