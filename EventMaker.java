@@ -34,11 +34,7 @@ public class EventMaker {
 	private JPanel centerChooseDatePanel;
 	
 	private JLabel chooseDate;
-	
-	private JSpinner monthSpinner;
-	private JSpinner daySpinner;
-	private JSpinner yearSpinner;
-	
+
 	private int month;
 	private int day;
 	private int year;
@@ -46,6 +42,7 @@ public class EventMaker {
 	public EventMaker(){
 		frame = new JFrame();
 		frame.setPreferredSize(new Dimension(600, 350));
+		mainPanel = new JPanel(new BorderLayout(2,2));
         final JTextField descript;
         final JTextField type;
         final JTextField eventDate;
@@ -79,7 +76,10 @@ public class EventMaker {
         panel.add(new JLabel());
         JButton doneBtn = new JButton("Create Event");
         
-        panel.add(doneBtn);
+        JPanel buttonPanel = new JPanel(new FlowLayout());
+        buttonPanel.add(doneBtn);
+        mainPanel.add(panel, BorderLayout.CENTER);
+        mainPanel.add(buttonPanel, BorderLayout.SOUTH);
         doneBtn.addActionListener(new ActionListener() {
 			
 			@Override
@@ -125,7 +125,7 @@ public class EventMaker {
 		});
         
 
-        frame.add(panel);
+        frame.add(mainPanel);
         frame.pack();
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
