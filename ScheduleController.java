@@ -1,6 +1,10 @@
 package scheduler;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -12,7 +16,11 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Scanner;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextPane;
 import javax.swing.WindowConstants;
 
 
@@ -148,7 +156,52 @@ public class ScheduleController {
 	}
 	
 	public static void addEvent(Event e) {
-		add(e);
+		boolean conflict =false;
+		for (Event v:database) {
+			if ((e.getStartTime().compareTo(v.getStartTime())>0 &&e.getStartTime().compareTo(v.getEndTime())<0)||
+					(e.getEndTime().compareTo(v.getStartTime())>0 &&e.getEndTime().compareTo(v.getEndTime())<0)) {
+				conflict=true;
+				conflictError();
+			}
+			
+		}
+		if (!conflict) add(e);
+	}
+	
+	public static void conflictError() {
+		JFrame error = new JFrame();
+		error.setTitle("ERROR! EVENT CONFLICTS WITH ANOTHER EVENT!");
+		error.setLayout(null);
+		error.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		error.setPreferredSize(new Dimension(400,150));
+		JButton butt = new JButton("Ok.");
+		butt.setPreferredSize(new Dimension(80,20));
+		butt.setSize(80,20);
+		butt.setLocation(160, 70);
+		butt.repaint();
+		butt.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				error.dispose();
+				
+			}});
+		
+		JPanel panel = new JPanel();
+		panel.setPreferredSize(new Dimension(360,50));
+		panel.setSize(360,50);
+		panel.setLocation(10, 10);
+		panel.repaint();
+		JLabel label = new JLabel("Error: event time conflict.");
+		label.setOpaque(true);
+		label.repaint();
+		panel.add(label);
+		
+		
+		error.add(butt);
+		error.add(panel);
+		error.pack();
+		error.setVisible(true);
 	}
 	
 	public static void refresh() {
