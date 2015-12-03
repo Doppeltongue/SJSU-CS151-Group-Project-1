@@ -40,7 +40,7 @@ public class ScheduleController {
 		foundation = new JFrame("SUSCAP");
 		foundation.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		foundation.setLayout(null);
-		foundation.setPreferredSize(new Dimension(916, 650));
+		foundation.setPreferredSize(new Dimension(916, 675));
 		startUp();
 	}
 	
