@@ -1,0 +1,8 @@
+package scheduler;
+
+public class SchedulerMain {
+	public static void main(String args[]) {
+		ScheduleController control = new ScheduleController();
+		control.show();
+	}
+}
