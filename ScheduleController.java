@@ -13,7 +13,6 @@ import java.util.GregorianCalendar;
 import java.util.Scanner;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 
@@ -28,7 +27,6 @@ import javax.swing.WindowConstants;
 public class ScheduleController {
 	public static final int BUTTON_WIDTH = 100;
 	private static final String SAVE_LOCATION = new String("schedule.txt");
-	private static final int MILLISECONDS_IN_HOUR = 3600000;
 	static ArrayList<Event> database; //ArrayList is used since we don't know what the database size will be
 	static JFrame foundation;
 	static WeekPane pane;
@@ -89,9 +87,10 @@ public class ScheduleController {
 		}
 	}
 	
-	public void add(Event e) {
+	public static void add(Event e) {
 		database.add(e);
 		save();
+		refresh();
 	}
 	
 	public static void remove(Event e) {
@@ -99,10 +98,15 @@ public class ScheduleController {
 		save();
 	}
 	
-	public ArrayList<Event> getDay(Date date) {
+	public static ArrayList<Event> getDay(Date thedate) {
 		ArrayList<Event> day = new ArrayList<Event>();
 		for (Event e: database) {
-			if (Math.abs(e.getStartTime().getTime()-date.getTime())<MILLISECONDS_IN_HOUR) {
+			Calendar cal1 = Calendar.getInstance();
+			Calendar cal2 = Calendar.getInstance();
+			cal1.setTime(e.getStartTime());
+			cal2.setTime(thedate);
+			if (cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
+	                  cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR)) {
 				day.add(e);
 			}
 		}
@@ -138,12 +142,13 @@ public class ScheduleController {
 	}
 	
 	public static void deleteEvent(Event e){
-		System.out.println(database.toString());
 		remove(e);
-		System.out.println(database.toString());
 		refresh();
-		System.out.println("Here");
 		
+	}
+	
+	public static void addEvent(Event e) {
+		add(e);
 	}
 	
 	public static void refresh() {
