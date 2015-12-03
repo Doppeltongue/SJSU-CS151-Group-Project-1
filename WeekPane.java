@@ -2,9 +2,9 @@ package scheduler;
 
 import java.awt.Dimension;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import javax.swing.JLayeredPane;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 public class WeekPane extends JScrollPane{
@@ -33,6 +33,15 @@ public class WeekPane extends JScrollPane{
 			EventButton butt = new EventButton(e);
 			base.add(butt);
 			base.moveToFront(butt);
+			if (e.getEndDay()!=e.getDay()){
+				EventButton ton = new EventButton(e);
+				ton.setLocation(butt.getX()+100,0);
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(e.getEndTime());
+				ton.setSize(100, 32*(cal.get(Calendar.HOUR_OF_DAY)+cal.get(Calendar.MINUTE)/60));
+				base.add(ton);
+				base.moveToFront(ton);
+			}
 		}
 		base.setVisible(true);
 		base.setOpaque(true);
