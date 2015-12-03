@@ -1,17 +1,13 @@
 package scheduler;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
-
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -42,6 +38,7 @@ public class Header extends JPanel{
 		header.add(centerPan, BorderLayout.CENTER);
 		JButton addEvent = new JButton("+");
 		addEvent.setFont(new Font("Serif", Font.PLAIN, 30));
+		addEvent.addActionListener(addButton());
 		header.add(addEvent, BorderLayout.EAST);
 		this.add(header, BorderLayout.NORTH);
 		this.add(datePanel.getDayBar(), BorderLayout.SOUTH);
@@ -50,8 +47,21 @@ public class Header extends JPanel{
 		this.setOpaque(true);
 		this.setLocation(0,0);
 		//this.setPreferredSize(new Dimension(1000,200));
+		this.setMaximumSize(new Dimension(900,110));
 		this.setSize(900,110);
 		this.repaint();
+	}
+	
+	private ActionListener addButton() {
+		return new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				EventMaker maker = new EventMaker();
+				maker.show();
+			}
+			
+		};
 	}
 	
 }
