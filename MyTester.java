@@ -32,8 +32,6 @@ public class MyTester {
 		
 		ScheduleController thing = new ScheduleController();
 		//thing.add(e);
-		DayPanel view = new DayPanel(current, thing.getDay(current));
-		System.out.println(view.hasEvent());
 		//thing.load();
 		ArrayList<Event> fun = thing.getDay(current);
 		System.out.println(fun.toString());
