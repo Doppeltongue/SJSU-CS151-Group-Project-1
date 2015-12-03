@@ -1,5 +1,6 @@
 package scheduler;
 
+import java.awt.Dimension;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -12,6 +13,8 @@ import java.util.GregorianCalendar;
 import java.util.Scanner;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 
 
 
@@ -26,10 +29,18 @@ public class ScheduleController {
 	private static final String SAVE_LOCATION = new String("schedule.txt");
 	private static final int MILLISECONDS_IN_HOUR = 3600000;
 	static ArrayList<Event> database; //ArrayList is used since we don't know what the database size will be
-	static JFrame foundation = new JFrame();
+	static JFrame foundation;
+	static WeekPane pane;
+	public static Date date;
 	
 	public ScheduleController() {
 		database = new ArrayList<Event>();
+		date = new Date();
+		foundation = new JFrame();
+		foundation.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		foundation.setLayout(null);
+		foundation.setPreferredSize(new Dimension(1000, 1000));
+		startUp();
 	}
 	
 	/**
@@ -97,7 +108,7 @@ public class ScheduleController {
 		return day;
 	}
 	
-	public ArrayList<Event> getWeek(Date date) {
+	public static ArrayList<Event> getWeek(Date date) {
 		GregorianCalendar cal = new GregorianCalendar();
 		cal.setTime(date);
 		ArrayList<Event> week = new ArrayList<Event>();
@@ -109,9 +120,33 @@ public class ScheduleController {
 		return week;
 	}
 	
+	public void startUp() {
+		load();
+		fill();
+	}
+	
+	public static void fill() {
+		foundation.add(new WeekPane(getWeek(date)));
+	}
+	
+	public void show() {
+		foundation.pack();
+		foundation.setVisible(true);
+	}
+	
 	public static void deleteEvent(Event e){
 		System.out.println(database.toString());
 		remove(e);
 		System.out.println(database.toString());
+		refresh();
+		System.out.println("Here");
+		
+	}
+	
+	public static void refresh() {
+		foundation.getContentPane().removeAll();
+		fill();
+		foundation.validate();
+		foundation.repaint();
 	}
 }
