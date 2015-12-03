@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class HeaderPanel extends JPanel {
+	private static final String[] DAYS = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
 
 	private String startDateLabel = "";
 	private String endDateLabel = "";
@@ -30,10 +31,10 @@ public class HeaderPanel extends JPanel {
 	
 	
 	
-	public HeaderPanel(Calendar currentDate) {
+	public HeaderPanel(Calendar cal) {
 		
-		currentDayOfWeek = currentDate.get(Calendar.DAY_OF_WEEK);
-		startDate = getStartDate();
+		currentDayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+		startDate = getStartDate(cal);
 		endDate = getEndDate();
 		startDateLabel = getStartDateLabel(startDate);
 		endDateLabel = getEndDateLabel(endDate);
@@ -45,38 +46,31 @@ public class HeaderPanel extends JPanel {
 		dates = new JLabel(weekLabel);
 		nextButton = new JButton(">");
 		nextButton.addActionListener(changeWeek(1));
-		startDate = this.getStartDate();
-		endDate = this.getEndDate();
-		startDateLabel = getStartDateLabel(currentDate);
-		endDateLabel = getEndDateLabel(currentDate);
+		startDateLabel = getStartDateLabel(cal);
+		endDateLabel = getEndDateLabel(cal);
 		weekLabel = this.getWeekLabel();
 		dates = new JLabel(weekLabel);
 		addPanels();
-		
-		
-		
-		
 	}
 	
 	/*
 	 * Returns the start date of the Week
 	 */
 	
-	public Calendar getStartDate(){
-		Calendar tempDay = Calendar.getInstance();
+	public Calendar getStartDate(Calendar cal){
 		if(currentDayOfWeek != 1){
 			Boolean isSunday = false;
 			while(!isSunday){
-				tempDay.add(Calendar.DATE, -1);
-				if((tempDay.get(Calendar.DAY_OF_WEEK)) == 1){
-					startDate = tempDay;
+				cal.add(Calendar.DATE, -1);
+				if((cal.get(Calendar.DAY_OF_WEEK)) == 1){
+					startDate = cal;
 					isSunday = true;
 				}
 			}
 		}
 		
 		else{
-			startDate = tempDay;
+			startDate = cal;
 		}
 		
 		return startDate;
@@ -124,6 +118,9 @@ public class HeaderPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				startDate.add(Calendar.DATE, (7*num));
+				ScheduleController.setDate(startDate.getTime());
+				ScheduleController.refresh();
+				/**
 				startDateLabel = getStartDateLabel(startDate);
 				endDate = getEndDate();
 				endDateLabel = getEndDateLabel(endDate);
@@ -131,6 +128,7 @@ public class HeaderPanel extends JPanel {
 				dates.setText(weekLabel);
 				removeAll();
 				addPanels();
+				*/
 				
 			}
 		};
@@ -160,6 +158,13 @@ public class HeaderPanel extends JPanel {
 	 */
 	
 	public void daysOfWeekSetUp(JPanel panel){
+		Calendar temp = Calendar.getInstance();
+		
+		for (int i=0;i<7;i++) {
+			JPanel day = new JPanel();
+		}
+		
+		
 		String[] daysOfWeek = new String[] {"Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"};
 		for(String e: daysOfWeek){
 			JLabel day = new JLabel(e);
