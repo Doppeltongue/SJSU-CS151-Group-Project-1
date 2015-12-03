@@ -6,8 +6,11 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Locale;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -65,7 +68,7 @@ public class EventMaker {
         eventDate = new JTextField(10);
         panel.add(eventDate);
 
-        panel.add(new JLabel("Start Time (0-23 hours): "));
+        panel.add(new JLabel("Start Time (HH:MM, 0 - 23 hours): "));
         startTime = new JTextField(5);
         panel.add(startTime);
 
@@ -84,10 +87,14 @@ public class EventMaker {
 				// TODO Auto-generated method stub
 				
 				String[] date = eventDate.getText().split("/");
+				String[] timeSplit = startTime.getText().split(":");
+				
+				
 				int day = Integer.parseInt(date[1]);
 				int month = Integer.parseInt(date[0]);
 				int year = Integer.parseInt(date[2]);
-				int hour = Integer.parseInt(startTime.getText());
+				int hour = Integer.parseInt(timeSplit[0]);
+				int min = Integer.parseInt(timeSplit[1]);
 				int duration = Integer.parseInt(endTime.getText());
 				int typeNum;
 				if(type.getText().equals("class")){
@@ -100,15 +107,20 @@ public class EventMaker {
 					typeNum = 2;
 				}
 			
-				Date time = new Date(year, month, day);
+			
+				GregorianCalendar cal = new GregorianCalendar(year, month - 1, day, hour, min);
+				Date time  = cal.getTime();
 				
 				Event newEvent = new Event(time, duration, typeNum, descript.getText());
 				
+				System.out.println(month);
+				System.out.println(year);
 				System.out.println(newEvent.getDate());
 				System.out.println(newEvent.getHour());
 				System.out.println(newEvent.getMonth());
 				System.out.println(newEvent.getType());
 				System.out.println(newEvent.toString());
+				System.out.println(duration);
 			}
 		});
         
