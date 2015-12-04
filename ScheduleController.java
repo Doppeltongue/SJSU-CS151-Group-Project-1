@@ -1,10 +1,8 @@
 package scheduler;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -20,7 +18,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextPane;
 import javax.swing.WindowConstants;
 
 
@@ -213,5 +210,74 @@ public class ScheduleController {
 	
 	public static void setDate(Date d) {
 		date = d;
+	}
+
+	public static void alert() {
+		Calendar cal = Calendar.getInstance();
+		long now = cal.getTimeInMillis();
+		for (Event e:database) {
+			long then = e.getStartTime().getTime();
+			if (then-now<(300000)&&then-now>0) {
+				spawnAlert(e);
+			}
+		}
+		
+	}
+
+	public static void spawnAlert(Event e) {
+
+		JFrame alert = new JFrame();
+		alert.setTitle("ALERT!");
+		alert.setLayout(null);
+		alert.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		alert.setPreferredSize(new Dimension(400,150));
+		JPanel buttpanel = new JPanel();
+		buttpanel.setPreferredSize(new Dimension(360,40) );
+		buttpanel.setSize(360,40);
+		buttpanel.setLocation(10, 70);
+		JButton okbutt = new JButton("Ok.");
+		okbutt.setPreferredSize(new Dimension(80,20));
+		okbutt.setSize(80,20);
+		okbutt.repaint();
+		okbutt.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				alert.dispose();
+				
+			}});
+		buttpanel.add(okbutt);
+		JButton gotobutt = new JButton("Open Event Viewer");
+		gotobutt.setPreferredSize(new Dimension(160,20));
+		gotobutt.setSize(160,20);
+		gotobutt.repaint();
+		gotobutt.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				EventView view = new EventView(e);
+				view.show();
+				alert.dispose();
+				
+			}});
+		buttpanel.add(gotobutt);
+		
+		JPanel panel = new JPanel();
+		panel.setPreferredSize(new Dimension(360,50));
+		panel.setSize(360,50);
+		panel.setLocation(10, 10);
+		panel.repaint();
+		JLabel label = new JLabel("Error: event time conflict.");
+		label.setOpaque(true);
+		label.repaint();
+		panel.add(label);
+		
+		buttpanel.setOpaque(true);
+		buttpanel.repaint();
+		alert.add(buttpanel);
+		alert.add(panel);
+		alert.pack();
+		alert.setVisible(true);
+
 	}
 }
