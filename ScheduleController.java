@@ -36,8 +36,10 @@ public class ScheduleController {
 	static JFrame foundation;
 	static WeekPane pane;
 	public static Date date;
+	static boolean alerted;
 	
 	public ScheduleController() {
+		alerted=false;
 		database = new ArrayList<Event>();
 		date = new Date();
 		foundation = new JFrame("SUSCAP");
@@ -213,12 +215,14 @@ public class ScheduleController {
 	}
 
 	public static void alert() {
+		if (alerted=true) return;
 		Calendar cal = Calendar.getInstance();
 		long now = cal.getTimeInMillis();
 		for (Event e:database) {
 			long then = e.getStartTime().getTime();
 			if (then-now<(300000)&&then-now>0) {
 				spawnAlert(e);
+				alerted=true;
 			}
 		}
 		
@@ -267,7 +271,7 @@ public class ScheduleController {
 		panel.setSize(360,50);
 		panel.setLocation(10, 10);
 		panel.repaint();
-		JLabel label = new JLabel("Error: event time conflict.");
+		JLabel label = new JLabel("Alert: there is an upcoming event.");
 		label.setOpaque(true);
 		label.repaint();
 		panel.add(label);
@@ -278,6 +282,6 @@ public class ScheduleController {
 		alert.add(panel);
 		alert.pack();
 		alert.setVisible(true);
-
+		
 	}
 }
