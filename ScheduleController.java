@@ -208,6 +208,7 @@ public class ScheduleController {
 		fill();
 		foundation.validate();
 		foundation.repaint();
+		alerted=false;
 	}
 	
 	public static void setDate(Date d) {
@@ -215,7 +216,7 @@ public class ScheduleController {
 	}
 
 	public static void alert() {
-		if (alerted=true) return;
+		if (alerted) return;
 		Calendar cal = Calendar.getInstance();
 		long now = cal.getTimeInMillis();
 		for (Event e:database) {
@@ -248,7 +249,6 @@ public class ScheduleController {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				alert.dispose();
-				
 			}});
 		buttpanel.add(okbutt);
 		JButton gotobutt = new JButton("Open Event Viewer");
@@ -262,7 +262,6 @@ public class ScheduleController {
 				EventView view = new EventView(e);
 				view.show();
 				alert.dispose();
-				
 			}});
 		buttpanel.add(gotobutt);
 		
