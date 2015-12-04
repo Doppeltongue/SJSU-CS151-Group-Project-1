@@ -22,7 +22,7 @@ public class WeekPane extends JScrollPane{
 	Timer timer;
 	
 	public WeekPane(ArrayList<Event> events) {
-		timer = new Timer(30*1000,update());
+		timer = new Timer(1000,update());
 		timer.start();
 		this.events = events;
 		base = makeWeek();
